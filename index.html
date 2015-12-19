@@ -1,0 +1,142 @@
+<!DOCTYPE html >
+<html manifest="manifest.appcache">
+<head>
+    <title>IAM</title>
+    <style>
+    .btn {
+      background: #3498db;
+      background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+      background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+      background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+      background-image: -o-linear-gradient(top, #3498db, #2980b9);
+      background-image: linear-gradient(to bottom, #3498db, #2980b9);
+      -webkit-border-radius: 28;
+      -moz-border-radius: 28;
+      border-radius: 28px;
+      font-family: Arial;
+      color: #ffffff;
+      font-size: 20px;
+      padding: 10px 20px 10px 20px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #3cb0fd;
+      background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+      background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+      background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+      background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+      background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+      text-decoration: none;
+    }
+</style>
+</head>
+<body>
+<h1>IAM Meditation Helper</h1>
+<audio id="ting" src="ting.mp3"></audio>
+<div>Optional meditaion length in min<input type="number" value="0" id="meditationLength" min="0" max="600" step="0.5"></div>
+<h2 id="currentStep"></h2>
+<div><button class="btn" onclick="play(); return false;" id="playButton">Play</button></div>
+<script>
+    var audio = document.querySelector("audio");
+    var meditationInput = document.querySelector("#meditationLength");
+    var playButton = document.querySelector("#playButton");
+    var currentStep = document.querySelector("#currentStep"); 
+    var times, pos, meditationTimeout, meditationLen, startTime;
+    var playTingAfterTime = function(){
+        if (pos < times.length){
+            audio.play();
+            pos+=1;
+            currentStep.innerText = steps[pos];
+            if (pos+1 === times.length) {
+                currentStep.innerText = "Finished at " + startTime.toLocaleTimeString() + " on " + startTime.toLocaleDateString();
+            }
+            meditationTimeout = setTimeout(playTingAfterTime,times[pos]*1000);
+        }
+    };
+    var steps = [
+    "Yoga",
+    "Shavasana",
+    "Observe point",
+    "Quick inhalation exhalation",
+    "Relax",
+    "Close ears and observe breath",
+    "Mmmms (about 5)",
+    "Grace",
+    "Cold water",
+    "Feel touch on crown in Muladhara",
+    "Vibration down then up spine",
+    "Gold star point (Ajna) between eyebrows",
+    "Gold star point in (Vishuddhi) throat",
+    "Gold star point in (Anahata) heart",
+    "Gold star point in (Manipura) naval",
+    "Gold star point in (Swadhisthana) genitals",
+    "Gold star point in (Muladhara) between anus + genitals",
+    "Gold star point in (Swadhisthana) genitals",
+    "Gold star point in (Manipura) naval",
+    "Gold star point in (Anahata) heart",
+    "Gold star point in (Vishuddhi) throat",
+    "Gold star point (Ajna) between eyebrows",
+    "Gold star point in (Sahasrara) crown",
+    "Shining orb of light within head",
+    "Golden effulgence permeates whole body",
+    "Circular breathing",
+    "Vibrations at point in (Muladhara) between anus + genitals",
+    "Vibrations at point in (Swadhisthana) genitals",
+    "Vibrations at point in (Manipura) naval",
+    "Vibrations at point in (Anahata) heart",
+    "Vibrations at point in (Vishuddhi) throat",
+    "Vibrations at point in (Ajna) between eyebrows",
+    "Vibrations at point in (Sahasrara) crown",
+    "Ice water",
+    "Optional Meditation",
+    "Gaze done",
+    "Shavasana",
+    "Done"
+    ];
+    var play = function () {
+        startTime = new Date();
+        meditationLen = parseFloat(meditationInput.value)*60;
+        times = [
+            9*60+30,
+            2*60,
+            10+10,15,10,
+            5, 55,15,15,15,15,
+            15,15,15,15,15,15,
+            15,15,15,15,15,15,
+            30,90,120,
+            10,8,8,8,8,8,8,
+            30,
+            meditationLen,
+            120,5*60,0
+        ];
+        pos = -1;
+        clearTimeout(meditationTimeout);
+        playTingAfterTime();
+    }
+
+// use service worker when supported by current firefox, ie, and safari
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('./service-worker.js', {scope: './'})
+//   .then(function() {
+//     // Registration was successful. Now, check to see whether the service worker is controlling the page.
+//     if (navigator.serviceWorker.controller) {
+//       // If .controller is set, then this page is being actively controlled by the service worker.
+//       console.log('The service worker is currently handling network operations. ' + 'If you reload the page, the images (and everything else) will be served from the service worker\'s cache.');
+//     } else {
+//       // If .controller isn't set, then prompt the user to reload the page so that the service worker can take
+//       // control. Until that happens, the service worker's fetch handler won't be used.
+//       console.log('Please reload this page to allow the service worker to handle network operations.');
+//     }
+//   }).catch(function(error) {
+//     // Something went wrong during registration. The service-worker.js file
+//     // might be unavailable or contain a syntax error.
+//     console.error(error);
+//   });
+// } else {
+//   console.log("no service worker support");
+// }
+
+</script>
+</body>
+</html>
