@@ -69,7 +69,7 @@ var noSleep = new NoSleep();
             if (pos === times.length) {
                 currentStep.innerText = "Finished at " + startTime.toLocaleTimeString() + " on " + startTime.toLocaleDateString();
             }
-            meditationTimeout = setTimeout(playTingAfterTime,times[pos]*10);
+            meditationTimeout = setTimeout(playTingAfterTime,times[pos]*1000);
         }
     };
     var steps = ["Yoga", "Shavasana", "Observe point", "Quick inhalation exhalation", "Relax", "Close ears and observe breath", "Mmmms (about 5)", "Grace", "Cold water", "Feel touch on crown in Muladhara", "Vibration down then up spine", "Gold star point (Ajna) between eyebrows", "Gold star point in (Vishuddhi) throat", "Gold star point in (Anahata) heart", "Gold star point in (Manipura) naval", "Gold star point in (Swadhisthana) genitals", "Gold star point in (Muladhara) between anus + genitals", "Gold star point in (Swadhisthana) genitals", "Gold star point in (Manipura) naval", "Gold star point in (Anahata) heart", "Gold star point in (Vishuddhi) throat", "Gold star point (Ajna) between eyebrows", "Gold star point in (Sahasrara) crown", "Shining orb of light within head", "Golden effulgence permeates whole body", "Circular breathing", "Vibrations at point in (Muladhara) between anus + genitals", "Vibrations at point in (Swadhisthana) genitals", "Vibrations at point in (Manipura) naval", "Vibrations at point in (Anahata) heart", "Vibrations at point in (Vishuddhi) throat", "Vibrations at point in (Ajna) between eyebrows", "Vibrations at point in (Sahasrara) crown", "Ice water", "Optional Meditation", "Gaze done", "Shavasana", "Done"];
