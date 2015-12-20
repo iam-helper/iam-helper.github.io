@@ -1,10 +1,21 @@
 <!DOCTYPE html >
-<!-- <html manifest="manifest.appcache"> -->
-<html>
+<html manifest="manifest.appcache">
+<!-- <html> -->
 <head>
     <title>IAM</title>
     <style>
+        body {
+          /*background-color: black;*/
+          margin: 0 auto;
+          text-align: center;
+        }
+        h1,h2,h3,p,div {
+          /*color: white;*/
+        }
         .btn {
+          position: fixed;
+          width: 100px;
+          bottom: 50px;
           background: #3498db;
           background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
           background-image: -moz-linear-gradient(top, #3498db, #2980b9);
@@ -22,7 +33,7 @@
         }
 
         .btn:hover {
-          background:ss #3cb0fd;
+          background: #3cb0fd;
           background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
           background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
           background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
@@ -30,19 +41,16 @@
           background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
           text-decoration: none;
         }
-        #keepAlive {
-          font-size: 1px;
-        }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1>IAM Meditation Helper</h1>
+<h1 id="title">IAM timer</h1>
 <audio id="ting" src="ting.mp3"></audio>
-<div>Optional meditaion length in min<input type="number" value="0" id="meditationLength" min="0" max="600" step="0.5"></div>
-<h2 id="currentStep"></h2>
+<div><h4>Optional meditaion length (in min)</h4><input type="number" value="0" id="meditationLength" min="0" max="600" step="0.5"></div>
+<h1 id="currentStep"></h1>
 <div id="keepAlive" ></div>
-<div><button class="btn" onclick="play(); return false;" id="playButton">Play</button></div>
+<div><button class="btn" onclick="play(); return false;" id="playButton">Start</button></div>
 <script>
     !function(A){function e(A,e,o){var t=document.createElement("source");t.src=o,t.type="video/"+e,A.appendChild(t)}var o={Android:/Android/gi.test(navigator.userAgent),iOS:/AppleWebKit/.test(navigator.userAgent)&&/Mobile\/\w+/.test(navigator.userAgent)},t={WebM:"data:video/webm;base64,GkXfo0AgQoaBAUL3gQFC8oEEQvOBCEKCQAR3ZWJtQoeBAkKFgQIYU4BnQI0VSalmQCgq17FAAw9CQE2AQAZ3aGFtbXlXQUAGd2hhbW15RIlACECPQAAAAAAAFlSua0AxrkAu14EBY8WBAZyBACK1nEADdW5khkAFVl9WUDglhohAA1ZQOIOBAeBABrCBCLqBCB9DtnVAIueBAKNAHIEAAIAwAQCdASoIAAgAAUAmJaQAA3AA/vz0AAA=",MP4:"data:video/mp4;base64,AAAAHGZ0eXBpc29tAAACAGlzb21pc28ybXA0MQAAAAhmcmVlAAAAG21kYXQAAAGzABAHAAABthADAowdbb9/AAAC6W1vb3YAAABsbXZoZAAAAAB8JbCAfCWwgAAAA+gAAAAAAAEAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIVdHJhawAAAFx0a2hkAAAAD3wlsIB8JbCAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAIAAAACAAAAAABsW1kaWEAAAAgbWRoZAAAAAB8JbCAfCWwgAAAA+gAAAAAVcQAAAAAAC1oZGxyAAAAAAAAAAB2aWRlAAAAAAAAAAAAAAAAVmlkZW9IYW5kbGVyAAAAAVxtaW5mAAAAFHZtaGQAAAABAAAAAAAAAAAAAAAkZGluZgAAABxkcmVmAAAAAAAAAAEAAAAMdXJsIAAAAAEAAAEcc3RibAAAALhzdHNkAAAAAAAAAAEAAACobXA0dgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIAAgASAAAAEgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABj//wAAAFJlc2RzAAAAAANEAAEABDwgEQAAAAADDUAAAAAABS0AAAGwAQAAAbWJEwAAAQAAAAEgAMSNiB9FAEQBFGMAAAGyTGF2YzUyLjg3LjQGAQIAAAAYc3R0cwAAAAAAAAABAAAAAQAAAAAAAAAcc3RzYwAAAAAAAAABAAAAAQAAAAEAAAABAAAAFHN0c3oAAAAAAAAAEwAAAAEAAAAUc3RjbwAAAAAAAAABAAAALAAAAGB1ZHRhAAAAWG1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAAK2lsc3QAAAAjqXRvbwAAABtkYXRhAAAAAQAAAABMYXZmNTIuNzguMw=="},i=function(){return o.iOS?this.noSleepTimer=null:o.Android&&(this.noSleepVideo=document.createElement("video"),this.noSleepVideo.setAttribute("loop",""),e(this.noSleepVideo,"webm",t.WebM),e(this.noSleepVideo,"mp4",t.MP4)),this};i.prototype.enable=function(A){o.iOS?(this.disable(),this.noSleepTimer=window.setInterval(function(){window.location.href='/',window.setTimeout(window.stop,0)},A||15e3)):o.Android&&this.noSleepVideo.play()},i.prototype.disable=function(){o.iOS?this.noSleepTimer&&(window.clearInterval(this.noSleepTimer),this.noSleepTimer=null):o.Android&&this.noSleepVideo.pause()},A.NoSleep=i}(this);
 
@@ -67,33 +75,34 @@ var noSleep = new NoSleep();
             pos+=1;
             currentStep.innerText = steps[pos];
             if (pos === times.length) {
-                currentStep.innerText = "Finished at " + startTime.toLocaleTimeString() + " on " + startTime.toLocaleDateString();
+              currentStep.innerText = "Finished at " + startTime.toLocaleTimeString() + " on " + startTime.toLocaleDateString();
+              noSleep.disable();
             }
             meditationTimeout = setTimeout(playTingAfterTime,(times[pos]+3)*1000);
         }
     };
     var steps = ["Yoga", "Shavasana", "Observe point", "Quick inhalation exhalation", "Relax", "Close ears and observe breath", "Mmmms (about 5)", "Grace", "Cold water", "Feel touch on crown in Muladhara", "Vibration down then up spine", "Gold star point (Ajna) between eyebrows", "Gold star point in (Vishuddhi) throat", "Gold star point in (Anahata) heart", "Gold star point in (Manipura) naval", "Gold star point in (Swadhisthana) genitals", "Gold star point in (Muladhara) between anus + genitals", "Gold star point in (Swadhisthana) genitals", "Gold star point in (Manipura) naval", "Gold star point in (Anahata) heart", "Gold star point in (Vishuddhi) throat", "Gold star point (Ajna) between eyebrows", "Gold star point in (Sahasrara) crown", "Shining orb of light within head", "Golden effulgence permeates whole body", "Circular breathing", "Vibrations at point in (Muladhara) between anus + genitals", "Vibrations at point in (Swadhisthana) genitals", "Vibrations at point in (Manipura) naval", "Vibrations at point in (Anahata) heart", "Vibrations at point in (Vishuddhi) throat", "Vibrations at point in (Ajna) between eyebrows", "Vibrations at point in (Sahasrara) crown", "Ice water", "Optional Meditation", "Gaze done", "Shavasana", "Done"];
     var play = function () {
-        startTime = new Date();
-        meditationLen = parseFloat(meditationInput.value)*60;
-        times = [
-            9*60+30,
-            2*60,
-            10+10,15,10,
-            5, 55,15,15,15,15,
-            15,15,15,15,15,15,
-            15,15,15,15,15,15,
-            30,90,120,
-            10,8,8,8,8,8,8,
-            30,
-            meditationLen,
-            120,5*60,0
-        ];
-        pos = -1;
-        clearTimeout(meditationTimeout);
-        playTingAfterTime();
+      noSleep.enable();
+      startTime = new Date();
+      meditationLen = parseFloat(meditationInput.value)*60;
+      times = [
+          9*60+30,
+          2*60,
+          10+10,15,10,
+          5, 55,15,15,15,15,
+          15,15,15,15,15,15,
+          15,15,15,15,15,15,
+          30,90,120,
+          10,8,8,8,8,8,8,
+          30,
+          meditationLen,
+          120,5*60,0
+      ];
+      pos = -1;
+      clearTimeout(meditationTimeout);
+      playTingAfterTime();
     }
-
 </script>
 </body>
 </html>
