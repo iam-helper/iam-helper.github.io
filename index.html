@@ -2,6 +2,10 @@
 <html manifest="manifest.appcache">
 <!-- <html> -->
 <head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="128x128" href="/favicon-1.png">
     <title>IAM Meditation timer</title>
     <style>
         body {
@@ -57,7 +61,6 @@
           text-decoration: none;
         }
     </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -135,7 +138,7 @@
     playTingAfterTime();
     noSleep.enable();
   }
-
+  var dontsleep = setInterval(noSleep.enable, 1000);
 </script>
 </body>
 </html>
